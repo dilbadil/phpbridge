@@ -1,4 +1,4 @@
-<?php namespace Suggestotron\Controller;
+<?php namespace Suggestotron;
 
 /**
  * base controller

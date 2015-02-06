@@ -1,39 +1,35 @@
-<?php namespace Suggestotron;
+<?php namespace Suggestotron\Model;
 
 use PDO;
+use Suggestotron\Db;
 
-class TopicData
+class Topics extends \Suggestotron\Controller
 {
-    
-    protected $connection;
-
-    protected $username = "root";
-
-    protected $password = "qweasd123";
-
-    function __construct()
-    {
-        $this->connect();
-    }
-
-    public function connect()
-    {
-        $config = \Suggestotron\Config::get('database');
-
-        $this->connection = new PDO('mysql:host=' . $config['dbhost'] . ';dbname=' . $config['dbname'], $config['dbuser'], $config['dbpassword']);
-    }
+    /**
+     * @var Topics $data
+     */
+    protected $data;
 
     public function getAllTopics()
     {
-        $query = $this->connection->prepare("SELECT * FROM topics");
-        $query->execute();
+        $sql = "SELECT
+                topics.*,
+                votes.count
+            FROM topics INNER JOIN votes ON (
+                votes.topic_id = topics.id
+            )
+            ORDER BY votes.count DESC, topics.title ASC
+        ";
 
-        return $query;
+        $query = Db::getInstance()->prepare($sql);
+        $query->execute();
+// echo "<pre>" . print_r($query->fetch(PDO::FETCH_ASSOC), 1) . "</pre>";exit;
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 
     public function add($data)
     {
-        $query = $this->connection->prepare(
+        $query = Db::getInstance()->prepare( 
             "INSERT INTO topics (
                 title,
                 description
@@ -49,12 +45,31 @@ class TopicData
         ];
 
         $query->execute($data);
+
+        // Grab the newly created topic ID
+        $id = Db::getInstance()->lastInsertId();
+
+        // Add empty vote row
+        $sql = "INSERT INTO votes (
+            topic_id,
+            count
+        ) VALUES (
+            :id,
+            0
+        )";
+
+        $data = [
+            ':id' => $id
+        ];
+
+        $query = Db::getInstance()->prepare($sql);
+        $query->execute($data);
     }
 
     public function getTopic($id)
     {
         $sql = "SELECT * FROM topics WHERE id = :id LIMIT 1";
-        $query = $this->connection->prepare($sql);
+        $query = Db::getInstance()->prepare($sql);
 
         $values = [':id' => $id];
         $query->execute($values);
@@ -64,7 +79,7 @@ class TopicData
 
     public function update($data)
     {
-        $query = $this->connection->prepare(
+        $query = Db::getInstance()->prepare(
             "UPDATE topics
                 SET
                     title = :title,
@@ -84,7 +99,7 @@ class TopicData
 
     public function delete($id)
     {
-        $query = $this->connection->prepare(
+        $query = Db::getInstance()->prepare(
             "DELETE FROM topics
                 WHERE
                     id = :id
@@ -94,6 +109,12 @@ class TopicData
         $data = [
             ':id' => $id
         ];
+
+        if (! $result)
+            return false;
+
+        $sql = "DELETE FROM votes WHERE topic_id = :id";
+        $query = Db::getInstance()->prepare($sql);
 
         return $query->execute($data);
     }

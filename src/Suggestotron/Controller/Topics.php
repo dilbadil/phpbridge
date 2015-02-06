@@ -1,6 +1,6 @@
 <?php namespace Suggestotron\Controller;
 
-class Topics extends Controller
+class Topics extends \Suggestotron\Controller
 {
     /**
      * @var TopicData $data
@@ -10,7 +10,7 @@ class Topics extends Controller
     function __construct()
     {
         parent::__construct();
-        $this->data = new \Suggestotron\TopicData();
+        $this->data = new \Suggestotron\Model\Topics();
     }
     
     /**
@@ -20,9 +20,7 @@ class Topics extends Controller
      */
     public function listAction()
     {
-
-        $data = new \Suggestotron\TopicData();
-
+        $data = new \Suggestotron\Model\Topics();
         $topics = $data->getAllTopics();
 
         $this->render("index/list.phtml", ['topics' => $topics]);
@@ -39,6 +37,7 @@ class Topics extends Controller
         if (isset($_POST) && sizeof($_POST) > 0)
         {
             $this->data->add($_POST);
+
             header("location: /");
             exit;
         }
@@ -59,28 +58,25 @@ class Topics extends Controller
 
         if (isset($_POST['id']) && ! empty($_POST['id']))
         {
-            if ($data->update($_POST)) {
+            if ($data->update($_POST))
+            {
                 header("location: /index.php");
                 exit;
-            } else {
-                echo "An error occured";
-                exit;
+            } else
+            {
+                die ("An error occured");
             }
         }
 
         if (! isset($options['id']) || empty($options['id']))
         {
-            echo "You did not pass in an ID";
-            exit;
+            die("You did not pass in an ID");
         }
 
         $topic = $data->getTopic($options['id']);
 
         if ($topic === false)
-        {
-            echo "Topic not found";
-            exit;
-        }
+            die ("Topic not found");
 
         $this->render("index/edit.phtml", ['topic' => $topic]);
         
@@ -94,9 +90,8 @@ class Topics extends Controller
     public function deleteAction($options)
     {
 
-        if (! isset($options['id']) || empty($options['id'])) {
+        if (! isset($options['id']) || empty($options['id']))
             die ("You did not pass in an ID");
-        }
 
         $topic = $this->data->getTopic($options['id']);
 

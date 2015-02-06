@@ -8,6 +8,10 @@ return [
             'controller' => '\Suggestotron\Controller\Topics',
             'action'    => 'list',
         ],
+        '/vote(/:action(/:id))' => [
+            'controller' => '\Suggestotron\Controller\Votes',
+            'action'    => 'index'
+        ],
         '/:controller(/:action)' => [
             'controller' => '\Suggestotron\Controller\:controller',
             'action'    => 'index',
