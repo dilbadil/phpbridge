@@ -22,7 +22,7 @@ class Topics extends \Suggestotron\Controller
     {
         $topics = $this->data->getAllTopics();
 
-        $this->render("index/list.phtml", ['topics' => $topics]);
+        $this->render("index/list", ['topics' => $topics]);
     }
     
     /**
@@ -41,7 +41,7 @@ class Topics extends \Suggestotron\Controller
             exit;
         }
 
-        $this->render("index/add.phtml");
+        $this->render("index/add");
         
     }
     
@@ -77,7 +77,7 @@ class Topics extends \Suggestotron\Controller
         if ($topic === false)
             die ("Topic not found");
 
-        $this->render("index/edit.phtml", ['topic' => $topic]);
+        $this->render("index/edit", ['topic' => $topic]);
         
     }
     

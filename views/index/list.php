@@ -1,7 +1,6 @@
-<?php
-$topics = $this->topics;
-foreach ($topics as $topic) {
-    ?>
+<?php $this->layout('template', ['title' => 'List Topic']) ?>
+
+<?php foreach ($topics as $topic) : ?>
     <section>
         <div class="row">
             <div class="col-xs-12">
@@ -36,6 +35,4 @@ foreach ($topics as $topic) {
         </div>
     </section>
     <hr>
-    <?php
-}
-?>
+<?php endforeach ?>

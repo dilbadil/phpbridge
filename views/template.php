@@ -1,10 +1,7 @@
-<?php
-$config = \Suggestotron\Config::get('site');
-?>
 <!doctype html>
 <html>
     <head>
-    <title><?= $config['title'] ?></title>
+    <title><?= $title ?></title>
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
         <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
@@ -25,7 +22,7 @@ $config = \Suggestotron\Config::get('site');
         </nav>
         <div class="container">
             <!-- Specific Page Content Goes Here -->
-            <?php $this->content(); ?>
+            <?= $this->section('content') ?>
         </div>
         <script type="text/javascript">
             $('[data-toggle="popover"]').popover();

@@ -1,3 +1,5 @@
+<?php $this->layout('template', ['title' => 'Add Page']) ?>
+
 <h2>New Topic</h2>
 <form action="/topic/add" method="POST">
     <label>

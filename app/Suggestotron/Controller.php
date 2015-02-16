@@ -19,7 +19,9 @@ class Controller
     public function __construct()
     {
         $this->config = \Suggestotron\Config::get('site');
-        $this->template = new \Suggestotron\Template($this->config['view_path'] . '/base.phtml');
+
+        // Create new Plates instance
+        $this->template = new \League\Plates\Engine($this->config['view_path']);
     }
 
     /**
@@ -30,6 +32,8 @@ class Controller
      */
     protected function render($template, $data = [])
     {
-        $this->template->render($this->config['view_path'] . '/' . $template, $data);
+        // Render a template
+        echo $this->template->render($template, $data);
     }
+
 }

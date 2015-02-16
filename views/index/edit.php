@@ -1,6 +1,5 @@
-<?php
-$topic = $this->topic;
-?>
+<?php $this->layout('template', ['title' => 'Edit Page']) ?>
+
 <h2>Edit Topic</h2>
 <form action="/topic/edit" method="POST">
     <label>
