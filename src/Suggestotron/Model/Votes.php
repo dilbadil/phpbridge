@@ -1,5 +1,7 @@
 <?php namespace Suggestotron\Model;
 
+use Suggestotron\Db;
+
 class Votes
 {
     /**
@@ -14,7 +16,7 @@ class Votes
             SET
                 count = count + 1
             WHERE
-                topic_id = :id           
+                topic_id = :id 
         ";
 
         $query = Db::getInstance()->prepare($sql);

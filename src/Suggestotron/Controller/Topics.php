@@ -20,8 +20,7 @@ class Topics extends \Suggestotron\Controller
      */
     public function listAction()
     {
-        $data = new \Suggestotron\Model\Topics();
-        $topics = $data->getAllTopics();
+        $topics = $this->data->getAllTopics();
 
         $this->render("index/list.phtml", ['topics' => $topics]);
     }
@@ -89,7 +88,6 @@ class Topics extends \Suggestotron\Controller
      */
     public function deleteAction($options)
     {
-
         if (! isset($options['id']) || empty($options['id']))
             die ("You did not pass in an ID");
 

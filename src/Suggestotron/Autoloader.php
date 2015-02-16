@@ -10,7 +10,6 @@ class Autoloader
     {
         $config = \Suggestotron\Config::get('autoload');
 
-        // $file = __DIR__ . "/../"  . str_replace("\\", "/", $className) . '.php';
         $file = $config['class_path'] . '/'  . str_replace("\\", "/", $className) . '.php';
 
         if (file_exists($file)) {

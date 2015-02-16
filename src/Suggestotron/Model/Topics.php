@@ -23,8 +23,8 @@ class Topics extends \Suggestotron\Controller
 
         $query = Db::getInstance()->prepare($sql);
         $query->execute();
-// echo "<pre>" . print_r($query->fetch(PDO::FETCH_ASSOC), 1) . "</pre>";exit;
-        return $query->fetch(PDO::FETCH_ASSOC);
+
+        return $query;
     }
 
     public function add($data)
@@ -109,6 +109,8 @@ class Topics extends \Suggestotron\Controller
         $data = [
             ':id' => $id
         ];
+        
+        $result = $query->execute($data);
 
         if (! $result)
             return false;
